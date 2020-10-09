@@ -1,6 +1,6 @@
 # pubtrends-review
 
-This is a source code for the paper: "Automatic generation of reviews of scientific paper" (TODO:ref).
+This is a source code for the paper: "Automatic generation of reviews of scientific paper" [https://arxiv.org/abs/2010.04147](https://arxiv.org/abs/2010.04147).
 
 Refer to [pysrc/review/README.md](pysrc/review/README.md) for instruction on dataset creation and model training.
 
