@@ -1,3 +1,5 @@
+[![JetBrains Research](https://jb.gg/badges/research.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
+
 # pubtrends-review
 
 This is a source code for the paper: "Automatic generation of reviews of scientific paper" [https://arxiv.org/abs/2010.04147](https://arxiv.org/abs/2010.04147).
