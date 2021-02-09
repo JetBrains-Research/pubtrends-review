@@ -26,9 +26,9 @@ n_random2writer = 100
 # additional
 seed = 1234
 
-base_path = "../summarization"
-data_path = f"{base_path}/data"
+base_path = "~/review"
+dataset_path = f"{base_path}/dataset"
 weights_path = f"{base_path}/weights"
 log_filepath = f"{base_path}/logs/log.log"
 tb_logdir = f"{base_path}/logs/tb_runs"
-predicted_path = "summarized_texts"
+predicted_path = f"{base_path}/summarized_texts"
