@@ -7,8 +7,8 @@ import torch.nn as nn
 from transformers import BertModel, BertTokenizer
 from transformers import RobertaModel, RobertaTokenizer
 
-import pysrc.review.config as cfg
-from pysrc.review.text import convert_token_to_id
+import review.config as cfg
+from review.text import convert_token_to_id
 
 SpecToken = namedtuple('SpecToken', ['tkn', 'idx'])
 
