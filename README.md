@@ -12,4 +12,3 @@ See [AUTHORS.md](AUTHORS.md) for a list of authors and contributors.
 
 # PubTrends
 * PubTrends is available as web service at [https://pubtrends.net](https://pubtrends.net)
-* Description can be found [here](https://research.jetbrains.org/groups/biolabs/projects/pubtrends/) 
