@@ -2,7 +2,8 @@
 
 # pubtrends-review
 
-This is a source code for the paper: "Automatic generation of reviews of scientific paper" [https://arxiv.org/abs/2010.04147](https://arxiv.org/abs/2010.04147).
+This is a source code for the paper: ["Automatic generation of reviews of scientific paper"](https://arxiv.org/abs/2010.04147).\
+Was accepted as a full paper at [International Conference on Machine Learning and Applications (ICMLA) 2019](https://ieeexplore.ieee.org/document/9356351).
 
 Refer to [review/README.md](review/README.md) for instruction on dataset creation and model training.
 
@@ -11,4 +12,3 @@ See [AUTHORS.md](AUTHORS.md) for a list of authors and contributors.
 
 # PubTrends
 * PubTrends is available as web service at [https://pubtrends.net](https://pubtrends.net)
-* Description can be found [here](https://research.jetbrains.org/groups/biolabs/projects/pubtrends/) 
