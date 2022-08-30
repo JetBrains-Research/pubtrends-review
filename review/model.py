@@ -1,7 +1,6 @@
 import logging
 from collections import namedtuple
 
-import numpy as np
 import torch
 import torch.nn as nn
 from transformers import BertModel, BertTokenizer
@@ -13,6 +12,13 @@ from review.text import convert_token_to_id
 SpecToken = namedtuple('SpecToken', ['tkn', 'idx'])
 
 logger = logging.getLogger(__name__)
+
+
+def setup_cuda_device(model):
+    logging.info('Setup single-device settings...')
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    model = model.to(device)
+    return model, device
 
 
 def load_model(model_type, froze_strategy, article_len, features=False):
@@ -27,7 +33,6 @@ def load_model(model_type, froze_strategy, article_len, features=False):
 
 class Summarizer(nn.Module):
     enc_output: torch.Tensor
-    rouges_values: np.array = np.zeros(4)
     dec_ids_mask: torch.Tensor
     encdec_ids_mask: torch.Tensor
 
@@ -47,11 +52,13 @@ class Summarizer(nn.Module):
 
         if with_features:
             logger.info('Init sequential features')
-            self.features = nn.Sequential(nn.Linear(num_features, 100),
-                                          nn.ReLU(),
-                                          nn.Linear(100, 100),
-                                          nn.ReLU(),
-                                          nn.Linear(100, 50))
+            self.features = nn.Sequential(
+                nn.Linear(num_features, 100),
+                nn.ReLU(),
+                nn.Linear(100, 100),
+                nn.ReLU(),
+                nn.Linear(100, 50)
+            )
         else:
             logger.info('No sequential features')
             self.features = None
@@ -146,18 +153,12 @@ class Summarizer(nn.Module):
         :param model_path: str
         """
         logger.info(f'Save model to {model_path}')
-        if not self.features:
-            state = {
-                'encoder_dict': self.backbone.state_dict(),
-                'decoder_dict': self.decoder.state_dict(),
-            }
-        else:
-            state = {
-                'encoder_dict': self.backbone.state_dict(),
-                'decoder_dict': self.decoder.state_dict(),
-                'features_dict': self.features.state_dict(),
-            }
-
+        state = dict(
+            encoder_dict=self.backbone.state_dict(),
+            decoder_dict=self.decoder.state_dict()
+        )
+        if self.features:
+            state['features_dict'] = self.features.state_dict()
         torch.save(state, model_path)
 
     def load(self, model_path):
@@ -180,12 +181,12 @@ class Summarizer(nn.Module):
         elif froze_strategy == 'unfroze_last4':
             logger.info('Unfroze backbone last4')
             for name, param in self.backbone.named_parameters():
-                param.requires_grad_(True if (
-                        'encoder.layer.11' in name or
-                        'encoder.layer.10' in name or
-                        'encoder.layer.9' in name or
-                        'encoder.layer.8' in name
-                ) else False)
+                param.requires_grad_(
+                    'encoder.layer.11' in name or
+                    'encoder.layer.10' in name or
+                    'encoder.layer.9' in name or
+                    'encoder.layer.8' in name
+                )
 
         elif froze_strategy == 'unfroze_all':
             logger.info('Unfroze all')
@@ -199,22 +200,6 @@ class Summarizer(nn.Module):
         logger.info('Unfrozing head')
         for name, param in self.decoder.named_parameters():
             param.requires_grad_(True)
-
-    @property
-    def rouge_1(self):
-        return self.rouges_values[0]
-
-    @property
-    def rouge_2(self):
-        return self.rouges_values[1]
-
-    @property
-    def rouge_l(self):
-        return self.rouges_values[2]
-
-    @property
-    def rouge_mean(self):
-        return self.rouges_values[3]
 
     def forward(self, input_ids, input_mask, input_segment, input_features=None):
         """ Train for 1st stage of model
