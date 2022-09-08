@@ -1,14 +1,3 @@
-# model structure
-d_hidden = 768  # 768
-d_bert = 768  # 768
-num_workers = 1
-
-# train
-amp_enabled = 1
-
-# additional
-seed = 1234
-
 # Paths config
 base_path = "~/review"
 dataset_path = f"{base_path}/dataset"
