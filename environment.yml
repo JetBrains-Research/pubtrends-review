@@ -1,7 +1,6 @@
 # Keep this file as small as possible! Only explicit imports here!
 name: pubtrends
 channels:
-  - anaconda
   - conda-forge
   - bokeh
   - pytorch
