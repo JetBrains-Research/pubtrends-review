@@ -1,4 +1,5 @@
 [![JetBrains Research](https://jb.gg/badges/research.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
+[![DOI](https://zenodo.org/badge/299675473.svg)](https://doi.org/10.5281/zenodo.15131486)
 
 # pubtrends-review
 
